@@ -35,7 +35,22 @@ public:
 
 string& JSON::search_key(const string& str)
 {
-    return pairs[str];
+    string temp;
+    temp.push_back('"');
+    int counter = 0;
+    while(counter < str.size())
+    {
+        temp.push_back(str[counter]);
+        counter++;
+    }
+    temp.push_back('"');
+
+    if(validString(temp))
+    {
+        return pairs[str];
+       ///else cout << "NOT FOUND" << endl;
+    }
+    else cerr << "INVALID INPUTTED STRING" << endl;
 }
 
 void JSON::printPairs() const
@@ -45,64 +60,44 @@ void JSON::printPairs() const
     }
 }
 
-
-void JSON::getPairs(const string& input)
+void JSON::inputPairs(const string& input)
 {
-    if(getFirstSymbol(input) == '{')
+    if(validObject(input))
     {
-        int counter = 1;
+        int counter = 3;
         string str;
         string temp;
-        while(input[counter] != '}')
-        {
 
-            if(input[counter] == ':')
+        while(input[counter] != '"' && input[counter] != '\\')
+        {
+            str.push_back(input[counter]);
+            counter++;
+        }
+
+        if(input[counter] == '\\')
+        {
+            str.push_back(input[counter]);
+            counter++;
+            str.push_back(input[counter]);
+            counter++;
+        }
+        else
+        {
+            counter++;
+            counter++;
+            counter++;
+            counter++;
+
+            while(counter < input.size() - 1)
             {
-                if(validString(str))
-                {
-                    temp = str;
-                    str.erase();
-                    counter++;
-                }
-                else cout << "error!" << endl; return;
-            }
-            if(input[counter] == ',')
-            {
-                if(isValidValue(str))
-                {
-                    pairs[temp] = str;
-                    str.erase();
-                    temp.erase();
-                    counter++;
-                }
-                else cout << "error!" << endl; return;
-            }
-            else
-            {
-                str.push_back(input[counter]);
+                temp.push_back(input[counter]);
                 counter++;
             }
         }
-        if(isValidValue(str))
-            {
-                    pairs[temp] = str;
-
-                    cout << pairs[temp] << endl;
-                    str.erase();
-                    temp.erase();
-                }
-
-        return;
+            pairs[str] = temp;
     }
-    else cout << "ERROR!" << endl;
-
+    else cerr << "WRONG INPUT!" << endl;
 }
-
-void JSON::inputPairs(const string& str)
-{
-
-}
-
 
 void JSON::printArr() const
 {
