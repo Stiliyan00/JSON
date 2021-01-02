@@ -1,0 +1,7 @@
+[123,"2213",{ " we " : 222}]
+{ "stiliyan" : { "aleks" : 20}}
+Print array
+Print object
+Search by key
+stiliyan
+e

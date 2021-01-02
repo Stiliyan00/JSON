@@ -3,6 +3,7 @@
 #include <stack>
 #include "valid_value.hpp"
 #include "object.hpp"
+#include <fstream>
 
 using namespace std;
 
@@ -11,64 +12,67 @@ int main()
 {
     JSON m;
 
-    char str[1024];
-    cin.getline(str, 1024, '\n');
-    ///cout << str << endl;
+    string str;
 
+    ifstream iFile("JSON.txt");
+    if(!iFile){
+        cout << "ERROR!\n";
+        return 0;
+    }
 
-   /// cout << validArr(str) << endl;
-
-   cout << validString(str) << endl;
-
-
-   /// cout << validString(str) << endl;
-   /// cout << validNumber(str) << endl;
-   /// cout << validBoolen(str) << endl;
-    ///if(validString(str)) cout << "mamka mu" << endl;
-
-
- /**    string command;
+    string command;
     char commandHelp;
     bool exit = false;
     do {
-        cout<<"$";
-        cin>>command;
+        cout<<"$ ";
 
-        if(command == "e") commandHelp = 'E';
-        if(command[0] == '[') commandHelp = 'A';
+        getline(iFile, str);
+        cout << str << endl;
+
+        if(str == "e") commandHelp = 'E';
+        if(str == "Print array") commandHelp = 'P';
+        if(str == "Print object") commandHelp = 'Q';
+        if(str == "Print object") commandHelp = 'Q';
+        if(str == "Search by key") commandHelp = 'K';
+        if(str[0] == '[') commandHelp = 'A';
+        if(str[0] == '{') commandHelp = 'O';
         switch (commandHelp) {
             case 'A':
             {
-                int newData;
-                cin >> newData;
-                m.Add_To_Array(newData);
+                if(validArr(str))
+                {
+                    m.inputArray(str);
+                }
+                else cerr << "HELPPPPP" << endl;
 
             }; break;
-            case 'I':
+            case 'O':
                 {
-
-
-                }; break;
-
-            case 'B':
-                {
-
-                }; break;
-
-            case 'F':
-                {
-
-
-                }; break;
-
-            case 'R':
-                {
-
+                    if(validObject(str))
+                    {
+                        m.inputPairs(str);
+                    }
+                    else cerr << "HELPPP" << endl;
                 }; break;
 
             case 'P':
                 {
+                    m.printArr();
 
+                }; break;
+
+            case 'Q':
+                {
+                    m.printPairs();
+
+                }; break;
+
+            case 'K':
+                {
+                    string s;
+                    getline(iFile, s);
+
+                    cout << m.search_key(s) << endl;
                 }; break;
 
             case 'S' :
@@ -81,10 +85,6 @@ int main()
             default: cout<<"Invalid command! Try again!\n";
         }
     } while (!exit);
-
-*/
-
-
 
     return 0;
 }
