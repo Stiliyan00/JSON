@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1609577680 source:c:\users\susi_\desktop\json\main.cpp
+	<iostream>
+	"JSON.hpp"
+	<stack>
+	"valid_value.hpp"
+	"object.hpp"
+
+1608823544 c:\users\susi_\desktop\json\json.hpp
+	<iostream>
+	<string.h>
+	<hashtable.h>
+	<vector>
+	<unordered_map>
+	"valid_value.hpp"
+	"object.hpp"
+
+1609577233 c:\users\susi_\desktop\json\valid_value.hpp
+	<iostream>
+	<string.h>
+	<stack>
+	<iterator>
+
+1608655756 c:\users\susi_\desktop\json\object.hpp
+	"valid_value.hpp"
+
