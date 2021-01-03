@@ -1,7 +1,29 @@
 [123,"2213",{ " we " : 222}]
 { "stiliyan" : { "aleks" : 20}}
+{ "NAME" : "stiliyan"}
+{ "NAME" : "aleks"}
+{ "NAME" : "kris"}
+{ "NAME" : "koci"}
+{ "NAME" : "tati"}
 Print array
 Print object
-Search by key
-stiliyan
+Replace
+NAME
+"stiliyan"
+"iliev"
+Replace
+NAME
+"aleks"
+"hristova"
+Print object
+Erase
+NAME
+"koci"
+Print object
+Move
+NAME
+"tati"
+NAME
+"hristova"
+Print object
 e
