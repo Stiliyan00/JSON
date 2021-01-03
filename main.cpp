@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 int main()
 {
     JSON m;
@@ -32,8 +31,10 @@ int main()
         if(str == "e") commandHelp = 'E';
         if(str == "Print array") commandHelp = 'P';
         if(str == "Print object") commandHelp = 'Q';
-        if(str == "Print object") commandHelp = 'Q';
+        if(str == "Replace") commandHelp = 'R';
         if(str == "Search by key") commandHelp = 'K';
+        if(str == "Erase") commandHelp = 'D';
+        if(str == "Move") commandHelp = 'M';
         if(str[0] == '[') commandHelp = 'A';
         if(str[0] == '{') commandHelp = 'O';
         switch (commandHelp) {
@@ -71,12 +72,48 @@ int main()
                 {
                     string s;
                     getline(iFile, s);
+                    cout << s << endl;
+                    m.search_key(s);
 
-                    cout << m.search_key(s) << endl;
+
                 }; break;
 
-            case 'S' :
+            case 'R' :
                 {
+                    string s;
+                    string s1;
+                    string newString;
+                    getline(iFile, s);
+                    getline(iFile, s1);
+                    getline(iFile, newString);
+                    m.Replace(s, s1, newString);
+
+                };break;
+
+            case 'D' :
+                {
+                    string str;
+                    string value;
+                    getline(iFile, str);
+                    getline(iFile, value);
+
+                   m.deleteElement(str, value);
+
+                };break;
+
+            case 'M' :
+                {
+                    string str;
+                    string value;
+                    string secondStr;
+                    string secondValue;
+
+                    getline(iFile, str);
+                    getline(iFile, value);
+                    getline(iFile, secondStr);
+                    getline(iFile, secondValue);
+
+                   m.Move(str, value, secondStr, secondValue);
 
                 };break;
 
