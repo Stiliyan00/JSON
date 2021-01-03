@@ -1,4 +1,4 @@
-[123,"2213",{ " we " : 222}]
+[123,"2213",{ " we " : 222},{ "ANI" : { "DIMITAR" : { "STILIYAN" : 101}}}]
 { "stiliyan" : { "aleks" : 20}}
 { "NAME" : "stiliyan"}
 { "NAME" : "aleks"}
@@ -25,5 +25,7 @@ NAME
 "tati"
 NAME
 "hristova"
+Search by key
+"NAME"
 Print object
 e
