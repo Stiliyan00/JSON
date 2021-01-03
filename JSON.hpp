@@ -8,6 +8,8 @@
 #include<unordered_map>
 #include "valid_value.hpp"
 #include "object.hpp"
+#include <list>
+#include <iterator>
 
 using namespace std;
 
@@ -16,7 +18,7 @@ using namespace std;
 class JSON
 {
 private:
-    unordered_map<string, string> pairs;
+    list<pair<string, string>> pairs;
     vector<string> arr;
 
 public:
@@ -31,32 +33,85 @@ public:
     void inputPairs(const string& str);
 
     string& search_key(const string& str);
+    void Replace(const string& str, const string& value, const string newStr);
+
+    void deleteElement(const string& str, const string& value);
+    void Move(const string& str, const string& value, const string& secondStr, const string& secondValue);
 };
+
+
+///i tuka nqmam proverka dali sa namereni i syshtestvuvat it1 i it2
+void JSON::Move(const string& str, const string& value, const string& secondStr, const string& secondValue)
+{
+    list<pair<string , string> >::iterator it1;
+    list<pair<string , string> >::iterator it2;
+
+    for(auto it = pairs.begin(); it != pairs.end(); ++it)
+    {
+        if(it->first == str && it->second == value)
+        {
+            it1 = it;
+        }
+        if(it->first == secondStr && it->second == secondValue)
+        {
+            it2 = it;
+        }
+    }
+
+        swap(*it1, *it2);
+
+}
+
+void JSON::deleteElement(const string& str, const string& value)
+{
+    for(auto it = pairs.begin(); it != pairs.end(); ++it)
+    {
+        if(it->first == str && it->second == value)
+        {
+            pairs.erase(it);
+            break;
+        }
+    }
+}
+
+
+void JSON::Replace(const string& str, const string& value, const string newStr)
+{
+    for(auto it = pairs.begin(); it != pairs.end(); ++it)
+    {
+        if(it->first == str && it->second == value)
+        {
+
+            it->second.replace(0, value.size(), newStr);
+        }
+    }
+}
 
 string& JSON::search_key(const string& str)
 {
-    string temp;
-    temp.push_back('"');
-    int counter = 0;
-    while(counter < str.size())
+   if(validString(str))
+    { string temp;
+
+    int counter = 1;
+    while(counter < str.size() - 1)
     {
         temp.push_back(str[counter]);
         counter++;
     }
-    temp.push_back('"');
 
-    if(validString(temp))
-    {
-        return pairs[str];
-       ///else cout << "NOT FOUND" << endl;
+        for(auto it = pairs.begin(); it != pairs.end(); ++it)
+        {
+            if(it->first == temp) cout << it->second << endl;
+        }
     }
     else cerr << "INVALID INPUTTED STRING" << endl;
 }
 
 void JSON::printPairs() const
 {
-    for (auto pair: pairs) {
-        std::cout << pair.first << ": " << pair.second << "\n";
+    for(auto it = pairs.begin(); it != pairs.end(); ++it)
+    {
+        cout << it->first << ": " << it->second <<endl;
     }
 }
 
@@ -94,7 +149,8 @@ void JSON::inputPairs(const string& input)
                 counter++;
             }
         }
-            pairs[str] = temp;
+        pair<string, string> p1(str, temp);
+        pairs.push_back(p1);
     }
     else cerr << "WRONG INPUT!" << endl;
 }
