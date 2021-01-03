@@ -32,6 +32,8 @@ public:
     void getPairs(const string& str);
     void inputPairs(const string& str);
 
+
+
     string& search_key(const string& str);
     void Replace(const string& str, const string& value, const string newStr);
 
@@ -123,34 +125,40 @@ void JSON::inputPairs(const string& input)
         string str;
         string temp;
 
-        while(input[counter] != '"' && input[counter] != '\\')
+        while(counter < input.size() - 1)
         {
-            str.push_back(input[counter]);
-            counter++;
-        }
-
-        if(input[counter] == '\\')
-        {
-            str.push_back(input[counter]);
-            counter++;
-            str.push_back(input[counter]);
-            counter++;
-        }
-        else
-        {
-            counter++;
-            counter++;
-            counter++;
-            counter++;
-
-            while(counter < input.size() - 1)
+            while(input[counter] != '"' && input[counter] != '\\')
             {
-                temp.push_back(input[counter]);
+                str.push_back(input[counter]);
                 counter++;
             }
+
+            if(input[counter] == '\\')
+            {
+                str.push_back(input[counter]);
+                counter++;
+                str.push_back(input[counter]);
+                counter++;
+            }
+            else
+            {
+                counter++;
+                counter++;
+                counter++;
+                counter++;
+            }
+                while(input[counter] != ',' && input[counter] != '}')
+                {
+                    if(input[counter] == ' ' && input[counter + 1] == ',') break;
+                    temp.push_back(input[counter]);
+                    counter++;
+                }
+                if(input[counter] == '}' && counter < input.size() - 1) temp.push_back(input[counter]);
+                if((input[counter + 1] == ',' ) || (input[counter] == '}' && counter < input.size() - 1)) counter += 3;
+
+            pair<string, string> p1(str, temp);
+            pairs.push_back(p1);
         }
-        pair<string, string> p1(str, temp);
-        pairs.push_back(p1);
     }
     else cerr << "WRONG INPUT!" << endl;
 }
