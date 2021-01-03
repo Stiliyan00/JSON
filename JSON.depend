@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1609616045 source:c:\users\susi_\desktop\json\main.cpp
+1609668441 source:c:\users\susi_\desktop\json\main.cpp
 	<iostream>
 	"JSON.hpp"
 	<stack>
@@ -7,7 +7,7 @@
 	"object.hpp"
 	<fstream>
 
-1609616020 c:\users\susi_\desktop\json\json.hpp
+1609688022 c:\users\susi_\desktop\json\json.hpp
 	<iostream>
 	<string.h>
 	<hashtable.h>
@@ -15,6 +15,8 @@
 	<unordered_map>
 	"valid_value.hpp"
 	"object.hpp"
+	<list>
+	<iterator>
 
 1609601840 c:\users\susi_\desktop\json\valid_value.hpp
 	<iostream>
