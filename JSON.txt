@@ -1,31 +1,53 @@
-[123,"2213",{ " we " : 222},{ "ANI" : { "DIMITAR" : { "STILIYAN" : 101}}}]
-{ "stiliyan" : { "aleks" : 20}}
-{ "NAME" : "stiliyan"}
-{ "NAME" : "aleks"}
-{ "NAME" : "kris"}
-{ "NAME" : "koci"}
-{ "NAME" : "tati"}
+[123,"2213",{ "we" : 222},{ "ANI" : { "DIMITAR" : { "STILIYAN" : 101}}},{ "NAME" : { "tati" : 101}},{ "NAME" : "koci"},{ "NAME" : "aleks"},{ "NAME" : "kris"},{ "NAME" : "stiliyan"}]
 Print array
 Print object
 Replace
-NAME
-"stiliyan"
-"iliev"
-Replace
-NAME
-"aleks"
-"hristova"
+ANI
+->
+"DIMITAR"
+->
+"STILIYAN"
+->
+101
+102
 Print object
+Search by key
+and print the value on index:
+3
+"NAME"
 Erase
 NAME
+->
 "koci"
 Print object
+Replace
+NAME
+->
+"tati"
+->
+101
+"DIMITAR"
+Replace
+NAME
+->
+"koci"
+"KONSTI0"
+Create a new object
+NAME
+->
+"tati"
+->
+"DIMITAR"
+"AGATA"
+Print object
+Print array
 Move
 NAME
-"tati"
-NAME
-"hristova"
-Search by key
-"NAME"
+->
+"aleks"
+we
+->
+222
+->START<-
 Print object
 e
