@@ -2,10 +2,26 @@
 #include "JSON.hpp"
 #include <stack>
 #include "valid_value.hpp"
-#include "object.hpp"
 #include <fstream>
+#include <sstream>
 
 using namespace std;
+
+void printString(const string str[])
+{
+    for(int i = 0; i < 4; i++)
+    {
+        cout << str[i] << " ";
+    }
+    cout << endl;
+}
+
+void printStringIndex(const string str[], int index)
+{
+    cout << str[index] << endl;
+}
+
+
 
 int main()
 {
@@ -33,6 +49,7 @@ int main()
         if(str == "Print object") commandHelp = 'Q';
         if(str == "Replace") commandHelp = 'R';
         if(str == "Search by key") commandHelp = 'K';
+        if(str == "Create a new object") commandHelp = 'C';
         if(str == "Erase") commandHelp = 'D';
         if(str == "Move") commandHelp = 'M';
         if(str[0] == '[') commandHelp = 'A';
@@ -43,6 +60,7 @@ int main()
                 if(validArr(str))
                 {
                     m.inputArray(str);
+                    m.takePairsFromArray();
                 }
                 else cerr << "HELPPPPP" << endl;
 
@@ -73,47 +91,244 @@ int main()
                     string s;
                     getline(iFile, s);
                     cout << s << endl;
-                    m.search_key(s);
+                    if(s == "and print all values")
+                    {
+                        string s1;
+                        getline(iFile, s1);
+                        cout << s1 << endl;
+                        printString(m.search_key(s1));
+                    }
+                    else if(s == "and print the value on index:")
+                    {
+                        string s1;
+                        getline(iFile, s1);
+                        cout << s1 << endl;
+                        string s2;
+                        getline(iFile, s2);
+                        cout << s2 << endl;
 
+                        stringstream geek(s1);
+                        int x = 0;
+                        geek >> x;
+
+                        printStringIndex(m.search_key(s2), x);
+                    }
+
+                    else m.search_key(s);
 
                 }; break;
 
             case 'R' :
                 {
-                    string s;
-                    string s1;
-                    string newString;
-                    getline(iFile, s);
-                    getline(iFile, s1);
-                    getline(iFile, newString);
-                    m.Replace(s, s1, newString);
+                    string str, str1;
+                    getline(iFile, str);
+                    getline(iFile, str1);
+                    string temp;
+                    string temp1;
+                    string value;
+                    getline(iFile, temp);
+                    getline(iFile, temp1);
+                    int counter = 0;
+                    while(temp1 == "->")
+                    {
+                        counter++;
+                        value.push_back('{');
+                        value.push_back(' ');
+                        for(int i = 0; i < temp.size(); i++)
+                        {
+                            value.push_back(temp[i]);
+                        }
+                        value.push_back(' ');
+                        value.push_back(':');
+                        value.push_back(' ');
+                        getline(iFile, temp);
+                        getline(iFile, temp1);
+
+                    }
+
+                    string newString = temp1;
+
+                    string newStr= value;
+
+                    for(int i = 0; i < temp.size(); i++)
+                    {
+                        value.push_back(temp[i]);
+                    }
+
+                    for(int i = 0; i < newString.size(); i++)
+                    {
+                        newStr.push_back(newString[i]);
+                    }
+                    for(int i = 0; i < counter; i++)
+                    {
+                        newStr.push_back('}');
+                        value.push_back('}');
+                    }
+
+                    m.Replace(str, value, newStr);
 
                 };break;
 
             case 'D' :
                 {
-                    string str;
-                    string value;
+                    string str, str1;
                     getline(iFile, str);
-                    getline(iFile, value);
+                    getline(iFile, str1);
+                    string temp;
+                    string temp1;
+                    string value;
+                    getline(iFile, temp);
+                    getline(iFile, temp1);
+                    int counter = 0;
+                    while(temp1 == "->")
+                    {
+                        counter++;
+                        value.push_back('{');
+                        value.push_back(' ');
+                        for(int i = 0; i < temp.size(); i++)
+                        {
+                            value.push_back(temp[i]);
+                        }
+                        value.push_back(' ');
+                        value.push_back(':');
+                        value.push_back(' ');
+                        getline(iFile, temp);
+                        getline(iFile, temp1);
 
-                   m.deleteElement(str, value);
+                    }
+
+                    for(int i = 0; i < temp.size(); i++)
+                    {
+                        value.push_back(temp[i]);
+                    }
+
+                    for(int i = 0; i < counter; i++)
+                    {
+                        value.push_back('}');
+                    }
+
+                    m.deleteElement(str, value);
+
+                };break;
+
+            case 'C' :
+                {
+                    string str, str1;
+                    getline(iFile, str);
+                    getline(iFile, str1);
+                    string temp;
+                    string temp1;
+                    string value;
+                    getline(iFile, temp);
+                    getline(iFile, temp1);
+                    int counter = 0;
+                    while(temp1 == "->")
+                    {
+                        counter++;
+                        value.push_back('{');
+                        value.push_back(' ');
+                        for(int i = 0; i < temp.size(); i++)
+                        {
+                            value.push_back(temp[i]);
+                        }
+                        value.push_back(' ');
+                        value.push_back(':');
+                        value.push_back(' ');
+                        getline(iFile, temp);
+                        getline(iFile, temp1);
+
+                    }
+
+                    for(int i = 0; i < temp.size(); i++)
+                    {
+                        value.push_back(temp[i]);
+                    }
+
+                    for(int i = 0; i < counter; i++)
+                    {
+                        value.push_back('}');
+                    }
+
+                    m.createObject(str, value, temp1);
 
                 };break;
 
             case 'M' :
                 {
-                    string str;
-                    string value;
-                    string secondStr;
-                    string secondValue;
-
+                    string str, str1;
                     getline(iFile, str);
-                    getline(iFile, value);
-                    getline(iFile, secondStr);
-                    getline(iFile, secondValue);
+                    getline(iFile, str1);
+                    string temp;
+                    string temp1;
+                    string value;
+                    getline(iFile, temp);
+                    getline(iFile, temp1);
+                    int counter = 0;
+                    while(temp1 == "->")
+                    {
+                        counter++;
+                        value.push_back('{');
+                        value.push_back(' ');
+                        for(int i = 0; i < temp.size(); i++)
+                        {
+                            value.push_back(temp[i]);
+                        }
+                        value.push_back(' ');
+                        value.push_back(':');
+                        value.push_back(' ');
+                        getline(iFile, temp);
+                        getline(iFile, temp1);
 
-                   m.Move(str, value, secondStr, secondValue);
+                    }
+
+                    for(int i = 0; i < temp.size(); i++)
+                    {
+                        value.push_back(temp[i]);
+                    }
+
+                    for(int i = 0; i < counter; i++)
+                    {
+                        value.push_back('}');
+                    }
+
+                    string str2 = temp1;
+                    string temp2;
+                    string value1;
+                    getline(iFile, temp2);
+                    getline(iFile, temp1);
+                    getline(iFile, temp2);
+
+                    counter = 0;
+                    while(temp2 == "->")
+                    {
+                        counter++;
+                        value1.push_back('{');
+                        value1.push_back(' ');
+                        for(int i = 0; i < temp1.size(); i++)
+                        {
+                            value.push_back(temp1[i]);
+                        }
+                        value1.push_back(' ');
+                        value1.push_back(':');
+                        value1.push_back(' ');
+                        getline(iFile, temp1);
+                        getline(iFile, temp2);
+
+                    }
+
+                    for(int i = 0; i < temp1.size(); i++)
+                    {
+                        value1.push_back(temp1[i]);
+                    }
+
+                    for(int i = 0; i < counter; i++)
+                    {
+                        value1.push_back('}');
+                    }
+                    cout << str << " " << value <<endl;
+                    cout << str2 << " " << value1 <<endl;
+
+                    m.Move(str, value, str2, value1);
 
                 };break;
 
