@@ -34,7 +34,6 @@
 		</Compiler>
 		<Unit filename="JSON.hpp" />
 		<Unit filename="main.cpp" />
-		<Unit filename="object.hpp" />
 		<Unit filename="valid_value.hpp" />
 		<Extensions>
 			<code_completion />
