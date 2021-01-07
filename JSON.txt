@@ -1,4 +1,4 @@
-[123,"2213",{ "we" : 222},{ "ANI" : { "DIMITAR" : { "STILIYAN" : 101}}},{ "NAME" : { "tati" : 101}},{ "NAME" : "koci"},{ "NAME" : "aleks"},{ "NAME" : "kris"},{ "NAME" : "stiliyan"}]
+[123,0se+213,"2213",{ "we" : 222},{ "ANI" : { "DIMITAR" : { "STILIYAN" : 101}}},{ "NAME" : { "tati" : 101}},{ "NAME" : "koci"},{ "NAME" : "aleks"},{ "NAME" : "kris"},{ "NAME" : "stiliyan"},{ "Grades" : [6,2,5,6]}]
 Print array
 Print object
 Replace
@@ -31,7 +31,7 @@ Replace
 NAME
 ->
 "koci"
-"KONSTI0"
+"KONSTANTIN"
 Create a new object
 NAME
 ->
@@ -41,13 +41,20 @@ NAME
 "AGATA"
 Print object
 Print array
-Move
-NAME
+Sort values in:
+Grades
 ->
-"aleks"
-we
-->
-222
-->START<-
+[6,2,5,6]
+Print array
 Print object
+Save in file with whitespace:
+printingValues.txt
+Save element:
+AGATA
+->
+"tati"
+->
+"DIMITAR"
+
+saveEl.txt
 e
