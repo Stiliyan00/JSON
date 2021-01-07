@@ -5,18 +5,9 @@
 #include <string.h>
 #include <stack>
 #include <iterator>
+#include <sstream>
 
 using namespace std;
-
-///[123,-123,0.e+213,[[[12321]]],null]
-
-void print(string a)
-{
-    for(int i = 0; i < a.size(); i++)
-    {
-        cout << a[i];
-    }
-}
 
 bool isNumber(const char& str)
 {
@@ -43,10 +34,10 @@ char getFirstSymbol(const string str, int i = 0)
 bool validString(string str);
 bool validBoolen(string str);
 bool validNumber(string str);
-bool validArr(string str);
+bool validArr( string& str);
 bool validObject(string str);
 
-bool isValidValue(const string str)
+bool isValidValue( string& str)
 {
         if(getFirstSymbol(str) == '"' && validString(str)) return true;
         if(getFirstSymbol(str) == '(' && validBoolen(str)) return true;
@@ -63,12 +54,7 @@ static string removeSpaces(string str)
     str. erase(remove(str. begin(), str. end(), ' '), str. end());
     return str;
 }
-/**
-static string remove_front_and_back_whitespace(string str)
-{
-    str.erase(remove_if(str.begin(), str.end(), [](const string& str){if}))
-}
-*/
+
 bool validBoolen(string str)
 {
     if(getFirstSymbol(str) == '(')
@@ -203,11 +189,14 @@ bool validString(string str)
     return false;
 }
 
-bool validArr(string str)
+bool validArr(string& str)
 {
+    int numberOfValidValues = 0;
     ///str = removeSpaces(str);
     if(getFirstSymbol(str) == '[' && str[str.size() - 1] == ']')
     {
+
+        bool isInArray = false;
 
         if(str == "[]") return true;
         int counter = 1;
@@ -216,9 +205,9 @@ bool validArr(string str)
 
         while(number_brackets > 0 && counter < str.size())
         {
-
             if(str[counter] == '[')
             {
+                isInArray = true;
                 value.push_back(str[counter]);
                 counter++;
                 number_brackets++;
@@ -233,17 +222,44 @@ bool validArr(string str)
 
             else if(str[counter] == ']' && number_brackets == 1)
             {
-                number_brackets--;
+                if(isValidValue(value)) number_brackets--;
+                else
+                {
+                    if(value != "") cerr << "THE GIVEN VALUE: " << value << " IS INVALID!" << endl;
+                        int indx = counter - 1;
+                        int res = 0;
+                        while(str[indx] != ',' && str[indx] != '[')
+                        {
+                            res++;
+                            indx--;
+                        }
+
+                        str.replace(indx, res,"");
+                        value.erase();
+                        counter++;
+
+                }
             }
 
-
-            else if(str[counter] == ',')
+            else if(str[counter] == ',' && isInArray == false)
             {
                 if(!isValidValue(value))
                 {
-                    return false;
+                    if(value != "") cerr << "THE GIVEN VALUE: " << value << " IS INVALID!" << endl;
+                        int indx = counter - 1;
+                        int res = 0;
+                        while(str[indx] != ',' && str[indx] != '[')
+                        {
+                            res++;
+                            indx--;
+                        }
+
+                        str.replace(indx, res,"");
+                        value.erase();
+                        counter++;
                 }
                 else {
+                        numberOfValidValues++;
                         value.erase();
                         counter++;
                 }
@@ -255,7 +271,7 @@ bool validArr(string str)
                 counter++;
             }
         }
-        if(!isValidValue(value) || number_brackets != 0 || counter < str.size()-1)
+        if(numberOfValidValues == 0 || number_brackets != 0 || counter < str.size()-1)
         {
             return false;
         }
@@ -267,16 +283,21 @@ bool validArr(string str)
 bool validObject(string input)
 {
     ///trqa da se smeni  i da proverqva za { } a ne za {} i proizvolen br whitespace mejdu tqh
-    if(removeSpaces(input) == "{}") return true;
+    if(removeSpaces(input) == "{ }") return true;
     if(input[0] == '{')
     {
         int counter = 1;
         string str;
 
         if(input[counter] == ' ') counter++;
-        else return false;
+        else
+        {
+            return false;
+        }
 
         int number_of_brackets = 1;
+
+        bool isArray = false;
 
         while(number_of_brackets > 0 && counter < input.size())
         {
@@ -298,17 +319,36 @@ bool validObject(string input)
                 number_of_brackets--;
             }
 
-            else if(input[counter] == ':')
+            else if(input[counter] == ' ' && input[counter + 1] == ':' && input[counter + 2] == ' ')
             {
-                if(validString(str) && input[counter + 1] == ' ' && input[counter - 1] == ' ')
+                if(validString(str))
                 {
                     str.erase();
+                    counter++;
                     counter++;
                     counter++;
                 }
                 else return false;
             }
-            else if(input[counter] == ',')
+            else if(input[counter] == '[')
+            {
+                isArray = true;
+                while(input[counter] != ']')
+                {
+                    str.push_back(input[counter]);
+                    counter++;
+                }
+                str.push_back(input[counter]);
+
+                if(validArr(str))
+                {
+                    counter++;
+                    isArray = false;
+                }
+                else return false;
+            }
+
+            else if(input[counter] == ',' && isArray == false)
             {
                 if(isValidValue(str) && input[counter + 1] == ' ')
                 {
@@ -316,7 +356,10 @@ bool validObject(string input)
                     counter++;
                     counter++;
                 }
-                else return false;
+                else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -325,11 +368,182 @@ bool validObject(string input)
             }
         }
         if(isValidValue(str)) return true;
-
         return false;
     }
-    else return false;
+    else
+    {
+        return false;
+    }
 }
 
+bool canBeSorted(string& str)
+{
+    if(validArr(str))
+    {
+        vector<string> arr;
+        int counter = 1;
+        int bracketCounter = 1;
+        string value;
+        int valueCounter = 0;
+        while(bracketCounter  > 0)
+        {
+            if(str[counter] == '[')
+            {
+                value.push_back(str[counter]);
+                counter++;
+                bracketCounter++;
+            }
+            if(str[counter] == ']' && bracketCounter > 1)
+            {
+                value.push_back(str[counter]);
+                counter++;
+                bracketCounter--;
+            }
+
+            if(str[counter] == ']' && bracketCounter == 1)
+            {
+                break;
+            }
+
+            if(str[counter] == ',' && bracketCounter == 1)
+            {
+                arr.push_back(value);
+                value.erase();
+                counter++;
+            }
+
+            if(str[counter] == ',' && bracketCounter > 1)
+            {
+                value.push_back(str[counter]);
+                counter++;
+            }
+
+
+            else
+            {
+                value.push_back(str[counter]);
+                counter++;
+
+            }
+        }
+        arr.push_back(value);
+
+        bool isCorrect = true;
+        for(int i = 1; i < arr.size(); i++)
+        {
+            if(validString(arr[i - 1]) && validString(arr[i]) && isCorrect)
+            {
+                isCorrect = true;
+            }
+            else if(validNumber(arr[i - 1]) && validNumber(arr[i]) && isCorrect)
+            {
+                isCorrect = true;
+            }
+            else isCorrect = false;
+
+        }
+        if(isCorrect) return true;
+        return false;
+    }
+    else cerr << "THE GIVEN VALUE: " << str << "IS NOT A VALID ARRAY!" << endl;
+}
+
+void sortArr(string& str)
+{
+    if(canBeSorted(str))
+    {
+        vector<string> arr;
+        int counter = 1;
+        int bracketCounter = 1;
+        string value;
+        int valueCounter = 0;
+        while(bracketCounter  > 0)
+        {
+            if(str[counter] == '[')
+            {
+                value.push_back(str[counter]);
+                counter++;
+                bracketCounter++;
+            }
+            if(str[counter] == ']' && bracketCounter > 1)
+            {
+                value.push_back(str[counter]);
+                counter++;
+                bracketCounter--;
+            }
+
+            if(str[counter] == ']' && bracketCounter == 1)
+            {
+                break;
+            }
+
+            if(str[counter] == ',' && bracketCounter == 1)
+            {
+                arr.push_back(value);
+                value.erase();
+                counter++;
+            }
+
+            if(str[counter] == ',' && bracketCounter > 1)
+            {
+                value.push_back(str[counter]);
+                counter++;
+            }
+
+
+            else
+            {
+                value.push_back(str[counter]);
+                counter++;
+
+            }
+        }
+        arr.push_back(value);
+        if(validNumber(arr[0]))
+        {
+            vector<int> arrHelp;
+            for(int i = 0; i < arr.size(); i++)
+            {
+
+                stringstream geek(arr[i]);
+                int x = 0;
+                geek >> x;
+                arrHelp.push_back(x);
+            }
+            arr.clear();
+            sort(arrHelp.begin(), arrHelp.end());
+            for(int i = 0; i < arrHelp.size(); i++)
+            {
+                stringstream ss;
+                ss<<arrHelp[i];
+                string s;
+                ss>>s;
+                arr.push_back(s);
+            }
+        }
+        else
+        {
+            sort(arr.begin(), arr.end());
+        }
+        str.erase();
+        str.push_back('[');
+        for(int i = 0; i < arr.size() - 1; i++)
+        {
+            for(int j = 0; j < arr[i].size(); j++)
+            {
+                str.push_back(arr[i][j]);
+            }
+            str.push_back(',');
+        }
+        for(int j = 0; j < arr[arr.size() - 1].size(); j++)
+        {
+            str.push_back(arr[arr.size() - 1][j]);
+        }
+        str.push_back(']');
+
+    }
+    else cerr << "CANNOT BE SORTED!" << endl;
+
+}
 
 #endif // _VALID_VALUE_H_
