@@ -1,0 +1,19 @@
+Array: 
+1233
+"2213"
+{ "we" : 222}
+{ "ANI" : { "DIMITAR" : { "STILIYAN" : 102}}}
+{ "NAME" : { "tati" : "DIMITAR"}}
+{ "NAME" : "aleks"}
+{ "NAME" : "kris"}
+{ "NAME" : "stiliyan"}
+{ "Grades" : [2,5,6,6]}
+
+Objects: 
+we 222
+ANI { "DIMITAR" : { "STILIYAN" : 102}}
+NAME "aleks"
+NAME "kris"
+NAME "stiliyan"
+Grades [2,5,6,6]
+AGATA { "tati" : "DIMITAR"}
