@@ -6,7 +6,7 @@
 #include <sstream>
 
 using namespace std;
-
+///tova s tui 4 ne go odobrqvam
 void printString(const string str[])
 {
     for(int i = 0; i < 4; i++)
@@ -21,8 +21,6 @@ void printStringIndex(const string str[], int index)
     cout << str[index] << endl;
 }
 
-
-
 int main()
 {
     JSON m;
@@ -35,7 +33,7 @@ int main()
         return 0;
     }
 
-    string command;
+  string command;
     char commandHelp;
     bool exit = false;
     do {
@@ -51,7 +49,11 @@ int main()
         if(str == "Search by key") commandHelp = 'K';
         if(str == "Create a new object") commandHelp = 'C';
         if(str == "Erase") commandHelp = 'D';
-        if(str == "Move") commandHelp = 'M';
+        if(str == "Sort values in:") commandHelp = 'S';
+        if(str == "Save in file with whitespace:") commandHelp = 'F';
+        if(str == "Save in file without whitespace:") commandHelp = 'B';
+        if(str == "Save element:") commandHelp = 's';
+        ///if(str == "Move") commandHelp = 'M';
         if(str[0] == '[') commandHelp = 'A';
         if(str[0] == '{') commandHelp = 'O';
         switch (commandHelp) {
@@ -60,10 +62,14 @@ int main()
                 if(validArr(str))
                 {
                     m.inputArray(str);
+                    m.removeNullsFromArray();
                     m.takePairsFromArray();
                 }
-                else cerr << "HELPPPPP" << endl;
-
+                else
+                {
+                    cerr << "WRONG INPUTTED ARRAY!" << endl;
+                 return 0;
+                }
             }; break;
             case 'O':
                 {
@@ -71,7 +77,7 @@ int main()
                     {
                         m.inputPairs(str);
                     }
-                    else cerr << "HELPPP" << endl;
+                    else cerr << "INVALID INPUT FOR OBJECT! " << endl;
                 }; break;
 
             case 'P':
@@ -169,6 +175,47 @@ int main()
 
                 };break;
 
+            case 'S' :
+                {
+                    string str, str1;
+                    getline(iFile, str);
+                    getline(iFile, str1);
+                    string temp;
+                    string temp1;
+                    string value;
+                    getline(iFile, temp);
+                    getline(iFile, temp1);
+                    int counter = 0;
+                    while(temp1 == "->")
+                    {
+                        counter++;
+                        value.push_back('{');
+                        value.push_back(' ');
+                        for(int i = 0; i < temp.size(); i++)
+                        {
+                            value.push_back(temp[i]);
+                        }
+                        value.push_back(' ');
+                        value.push_back(':');
+                        value.push_back(' ');
+                        getline(iFile, temp);
+                        getline(iFile, temp1);
+
+                    }
+
+                    for(int i = 0; i < temp.size(); i++)
+                    {
+                        value.push_back(temp[i]);
+                    }
+
+                    for(int i = 0; i < counter; i++)
+                    {
+                        value.push_back('}');
+                    }
+
+                    m.sortValue(str, value);
+
+                };break;
             case 'D' :
                 {
                     string str, str1;
@@ -210,6 +257,8 @@ int main()
                     m.deleteElement(str, value);
 
                 };break;
+
+
 
             case 'C' :
                 {
@@ -253,7 +302,7 @@ int main()
 
                 };break;
 
-            case 'M' :
+            /**case 'M' :
                 {
                     string str, str1;
                     getline(iFile, str);
@@ -329,6 +378,69 @@ int main()
                     cout << str2 << " " << value1 <<endl;
 
                     m.Move(str, value, str2, value1);
+
+                };break;
+*/
+            case 'F' :
+                {
+                    string s;
+                    getline(iFile, s);
+
+                    m.save(s, true);
+                };break;
+            case 'B' :
+                {
+                    string s;
+                    getline(iFile, s);
+
+                    m.save(s, false);
+                };break;
+
+            case 's' :
+                {
+                    string str, str1;
+                    getline(iFile, str);
+                    getline(iFile, str1);
+                    string temp;
+                    string temp1;
+                    string value;
+                    getline(iFile, temp);
+                    getline(iFile, temp1);
+                    int counter = 0;
+                    while(temp1 == "->")
+                    {
+                        counter++;
+                        value.push_back('{');
+                        value.push_back(' ');
+                        for(int i = 0; i < temp.size(); i++)
+                        {
+                            value.push_back(temp[i]);
+                        }
+                        value.push_back(' ');
+                        value.push_back(':');
+                        value.push_back(' ');
+                        getline(iFile, temp);
+                        getline(iFile, temp1);
+
+                    }
+
+                    for(int i = 0; i < temp.size(); i++)
+                    {
+                        value.push_back(temp[i]);
+                    }
+
+                    for(int i = 0; i < counter; i++)
+                    {
+                        value.push_back('}');
+                    }
+
+                    cout << str << " " << value << endl;
+                    string fileName;
+                    getline(iFile, fileName);
+                    cout << "In file: " << endl;
+                    cout << fileName << endl;
+
+                    m.saveElement(str, value, fileName);
 
                 };break;
 
