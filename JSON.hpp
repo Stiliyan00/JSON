@@ -37,8 +37,9 @@ public:
     void createObject(const string& str, const string& value, const string& newObject);
     void sortValue( string& str,  string& value);
 
+    ///deleting an object
     void deleteElement(const string& str, const string& value);
-    void Move(const string& str, const string& value, const string& secondStr, const string& secondValue);
+    void deleteElementInArray(const string& str);
 
     void save(const string& str, bool isTrue);
     void saveElement(const string& str, const string& value, const string& fileName);
@@ -214,78 +215,23 @@ void JSON::createObject(const string& str, const string& value, const string& ne
     }
 }
 
-
-///i tuka nqmam proverka dali sa namereni i syshtestvuvat it1 i it2
-/**
-void JSON::Move(const string& str, const string& value, const string& secondStr, const string& secondValue)
+void JSON::deleteElementInArray(const string& str)
 {
-    bool isFound1 = false;
-    bool isFound2 = false;
-    for(auto it = pairs.begin(); it != pairs.end(); ++it)
+    vector<string> temp;
+    for(int i = 0; i < arr.size(); i++)
     {
-        if(it->first == str && it->second == value)
+        if(arr[i] != str)
         {
-            it->second.erase();
-            it->second = secondValue;
-            isFound1 = true;
-        }
-
-        if(it->first == secondStr && it->second == secondValue)
-        {
-            it->second.erase();
-            it->second = value;
-            isFound2 = true;
+            temp.push_back(arr[i]);
         }
     }
-    if(isFound)
+    arr.clear();
+    for(int i = 0; i < temp.size(); i++)
     {
-        string temp;
-        string newTemp;
-        temp.push_back('{');
-        temp.push_back(' ');
-        temp.push_back('"');
-        newTemp.push_back('{');
-        newTemp.push_back(' ');
-        newTemp.push_back('"');
-
-        for(int i = 0; i < str.size(); i++)
-        {
-            temp.push_back(str[i]);
-            newTemp.push_back(str[i]);
-        }
-        temp.push_back('"');
-        temp.push_back(' ');
-        temp.push_back(':');
-        temp.push_back(' ');
-        newTemp.push_back('"');
-        newTemp.push_back(' ');
-        newTemp.push_back(':');
-        newTemp.push_back(' ');
-
-        for(int i = 0; i < value.size(); i++)
-        {
-            temp.push_back(value[i]);
-        }
-
-        for(int i = 0; i < newStr.size(); i++)
-        {
-            newTemp.push_back(newStr[i]);
-
-        }
-        temp.push_back('}');
-        newTemp.push_back('}');
-
-        for(int i = 0; i < arr.size(); i++)
-        {
-            if(arr[i] == temp)
-            {
-                arr[i] = newTemp;
-            }
-        }
+        arr.push_back(temp[i]);
     }
-
 }
-*/
+
 
 void JSON::deleteElement(const string& str, const string& value)
 {
