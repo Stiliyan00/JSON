@@ -53,6 +53,7 @@ int main()
         if(str == "Save in file with whitespace:") commandHelp = 'F';
         if(str == "Save in file without whitespace:") commandHelp = 'B';
         if(str == "Save element:") commandHelp = 's';
+        if(str == "Delete element:") commandHelp = 'd';
         ///if(str == "Move") commandHelp = 'M';
         if(str[0] == '[') commandHelp = 'A';
         if(str[0] == '{') commandHelp = 'O';
@@ -259,6 +260,16 @@ int main()
                 };break;
 
 
+             case 'd' :
+                {
+
+                    string str;
+                    getline(iFile, str);
+
+
+                    m.deleteElementInArray(str);
+
+                };break;
 
             case 'C' :
                 {
@@ -302,85 +313,7 @@ int main()
 
                 };break;
 
-            /**case 'M' :
-                {
-                    string str, str1;
-                    getline(iFile, str);
-                    getline(iFile, str1);
-                    string temp;
-                    string temp1;
-                    string value;
-                    getline(iFile, temp);
-                    getline(iFile, temp1);
-                    int counter = 0;
-                    while(temp1 == "->")
-                    {
-                        counter++;
-                        value.push_back('{');
-                        value.push_back(' ');
-                        for(int i = 0; i < temp.size(); i++)
-                        {
-                            value.push_back(temp[i]);
-                        }
-                        value.push_back(' ');
-                        value.push_back(':');
-                        value.push_back(' ');
-                        getline(iFile, temp);
-                        getline(iFile, temp1);
 
-                    }
-
-                    for(int i = 0; i < temp.size(); i++)
-                    {
-                        value.push_back(temp[i]);
-                    }
-
-                    for(int i = 0; i < counter; i++)
-                    {
-                        value.push_back('}');
-                    }
-
-                    string str2 = temp1;
-                    string temp2;
-                    string value1;
-                    getline(iFile, temp2);
-                    getline(iFile, temp1);
-                    getline(iFile, temp2);
-
-                    counter = 0;
-                    while(temp2 == "->")
-                    {
-                        counter++;
-                        value1.push_back('{');
-                        value1.push_back(' ');
-                        for(int i = 0; i < temp1.size(); i++)
-                        {
-                            value.push_back(temp1[i]);
-                        }
-                        value1.push_back(' ');
-                        value1.push_back(':');
-                        value1.push_back(' ');
-                        getline(iFile, temp1);
-                        getline(iFile, temp2);
-
-                    }
-
-                    for(int i = 0; i < temp1.size(); i++)
-                    {
-                        value1.push_back(temp1[i]);
-                    }
-
-                    for(int i = 0; i < counter; i++)
-                    {
-                        value1.push_back('}');
-                    }
-                    cout << str << " " << value <<endl;
-                    cout << str2 << " " << value1 <<endl;
-
-                    m.Move(str, value, str2, value1);
-
-                };break;
-*/
             case 'F' :
                 {
                     string s;
