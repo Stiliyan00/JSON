@@ -47,6 +47,10 @@ Grades
 [6,2,5,6]
 Print array
 Print object
+Delete element
+123
+Print array
+Print object
 Save in file with whitespace:
 printingValues.txt
 Save element:
