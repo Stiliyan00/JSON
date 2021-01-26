@@ -6,10 +6,10 @@
 #include <sstream>
 
 using namespace std;
-///tova s tui 4 ne go odobrqvam
+
 void printString(const string str[])
 {
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < str->size(); i++)
     {
         cout << str[i] << " ";
     }
@@ -54,7 +54,6 @@ int main()
         if(str == "Save in file without whitespace:") commandHelp = 'B';
         if(str == "Save element:") commandHelp = 's';
         if(str == "Delete element:") commandHelp = 'd';
-        ///if(str == "Move") commandHelp = 'M';
         if(str[0] == '[') commandHelp = 'A';
         if(str[0] == '{') commandHelp = 'O';
         switch (commandHelp) {
