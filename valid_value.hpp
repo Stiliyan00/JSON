@@ -96,9 +96,9 @@ bool validNumber(string str)
                 }
 
                 ///tova za da sme sig che ima pone edna cifra
-                if(str[i] >= 48 && str[i] <= 58)
+                if(str[i] >= '0' && str[i] <= '9')
                 {
-                    while(str[i] >= 48 && str[i] <= 58) i++;
+                    while(str[i] >= '0' && str[i] <= '9') i++;
                 }
             }
 
@@ -218,6 +218,7 @@ bool validArr(string& str)
                 value.push_back(str[counter]);
                 counter++;
                 number_brackets--;
+                isInArray = false;
             }
 
             else if(str[counter] == ']' && number_brackets == 1)
@@ -376,6 +377,7 @@ bool validObject(string input)
     }
 }
 
+///----------here ends the validation !----------------------------------
 bool canBeSorted(string& str)
 {
     if(validArr(str))
