@@ -1,0 +1,64 @@
+[123,0se+213,"2213",{ "we" : 222},{ "ANI" : { "DIMITAR" : { "STILIYAN" : 101}}},{ "NAME" : { "tati" : 101}},{ "NAME" : "koci"},{ "NAME" : "aleks"},{ "NAME" : "kris"},{ "NAME" : "stiliyan"},{ "Grades" : [6,2,5,6]}]
+Print array
+Print object
+Replace
+ANI
+->
+"DIMITAR"
+->
+"STILIYAN"
+->
+101
+102
+Print object
+Search by key
+and print the value on index:
+3
+"NAME"
+Erase
+NAME
+->
+"koci"
+Print object
+Replace
+NAME
+->
+"tati"
+->
+101
+"DIMITAR"
+Replace
+NAME
+->
+"koci"
+"KONSTANTIN"
+Create a new object
+NAME
+->
+"tati"
+->
+"DIMITAR"
+"AGATA"
+Print object
+Print array
+Sort values in:
+Grades
+->
+[6,2,5,6]
+Print array
+Print object
+Delete element
+123
+Print array
+Print object
+Save in file with whitespace:
+printingValues.txt
+Save element:
+AGATA
+->
+"tati"
+->
+"DIMITAR"
+
+saveEl.txt
+e
